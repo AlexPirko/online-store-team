@@ -1,0 +1,28 @@
+{
+    "env": {
+      "browser": true,
+      "es2021": true
+    },
+    "extends": [
+      "airbnb-typescript/base",
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "project": "./tsconfig.json"
+    },
+    "plugins": [
+      "@typescript-eslint",
+      "import"
+    ],
+
+    "ignorePatterns": ["*config.js"],
+
+    "rules": {
+        "no-debugger": "off",
+        "no-console": "off",
+        "class-methods-use-this": "off",
+        "@typescript-eslint/no-explicit-any": "warn"
+    }
+}
