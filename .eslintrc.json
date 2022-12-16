@@ -6,7 +6,8 @@
     "extends": [
       "airbnb-typescript/base",
       "eslint:recommended",
-      "plugin:@typescript-eslint/recommended"
+      "plugin:@typescript-eslint/recommended",
+      "eslint-config-prettier"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -14,6 +15,7 @@
     },
     "plugins": [
       "@typescript-eslint",
+      "eslint-plugin-prettier",
       "import"
     ],
 
@@ -23,6 +25,14 @@
         "no-debugger": "off",
         "no-console": "off",
         "class-methods-use-this": "off",
-        "@typescript-eslint/no-explicit-any": "warn"
+        "@typescript-eslint/no-explicit-any": "warn",
+      "prettier/prettier": [
+        "error",
+        {
+            "endOfLine": "auto",
+            "singleQuote": true,
+            "printWidth": 120
+        }
+      ]
     }
 }
