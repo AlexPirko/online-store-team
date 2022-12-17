@@ -12,7 +12,7 @@ const devServer = (isDev) => !isDev ? {} : {
         open: true,
         hot: true,
         port: 8080,
-        contentBase: path.join(__dirname, 'public'),
+        static: path.join(__dirname, 'public'),
     },
 };
   
