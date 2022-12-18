@@ -1,12 +1,8 @@
 import './style.css';
-import { App } from './App';
+import loader from './loader';
 
-const root = document.getElementById('root');
+const PRODUCTS_EDPOINT = `https://dummyjson.com/products?limit=100`;
 
-if (!root) {
-  throw new Error('The root element is undefined!');
-}
-
-const app = new App();
-
-root.innerHTML = app.render();
+loader(PRODUCTS_EDPOINT, (data) => {
+  console.log(data.products);
+});
