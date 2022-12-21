@@ -12,4 +12,14 @@ export interface Product {
   images: string[];
 }
 
+export enum PageIds {
+  HomePage = 'home-page',
+  ProductListPage = 'product-list-page',
+  CartPage = 'cart-page',
+}
+
+export enum ErrorTypes {
+  Error_404 = '404'
+}
+
 export type LoaderCallBack = (data: { products?: Product[] }) => void;
