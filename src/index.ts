@@ -1,8 +1,5 @@
 import './style.css';
-import loader from './loader';
+import App from './pages/app';
 
-const PRODUCTS_EDPOINT = `https://dummyjson.com/products?limit=100`;
-
-loader(PRODUCTS_EDPOINT, (data) => {
-  console.log(data.products);
-});
+const app = new App();
+app.run();

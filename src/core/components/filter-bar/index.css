@@ -1,0 +1,10 @@
+.filter-bar {
+  min-width: 300px;
+  width: 300px;
+  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  margin-right: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: rgb(247, 247, 247);
+}
