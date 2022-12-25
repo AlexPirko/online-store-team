@@ -1,3 +1,4 @@
+import './index.css';
 import Component from '../../templates/component';
 import { PageIds } from '../../../types/types';
 
@@ -18,15 +19,17 @@ const Buttons = [
 
 export default class Header extends Component {
   renderPageButtons() {
-    const pageButtons = document.createElement('div');
+    const nav = document.createElement('nav');
+    nav.classList.add('nav');
 
     Buttons.forEach(({ id, text }) => {
-      const buttonHTML = document.createElement('a');
-      buttonHTML.href = `#${id}`;
-      buttonHTML.innerText = text;
-      pageButtons.append(buttonHTML);
+      const navLink = document.createElement('a');
+      navLink.href = `#${id}`;
+      navLink.innerText = text;
+      navLink.classList.add('nav-link');
+      nav.append(navLink);
     });
-    this.container.append(pageButtons);
+    this.container.append(nav);
   }
 
   override render() {

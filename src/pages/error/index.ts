@@ -8,7 +8,7 @@ export default class ErrorPage extends Page {
     '404': '404 - The Page not found!(',
   };
 
-  constructor(id: string, errorType:ErrorTypes | string) {
+  constructor(id: string, errorType: ErrorTypes | string) {
     super(id);
     this.errorType = errorType;
   }

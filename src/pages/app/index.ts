@@ -5,17 +5,27 @@ import ProductListPage from '../product-list';
 import Header from '../../core/components/header';
 import { ErrorTypes, PageIds } from '../../types/types';
 import ErrorPage from '../error';
+import Products from '../../core/Products';
 
 export default class App {
   private static container: HTMLElement = document.body;
 
   private static defaultPageId = 'current-page';
 
-  private initialPage: HomePage;
+  private products: Products;
+
+  // private initialPage: HomePage;
 
   private header: Header;
 
-  static renderNewPage(idPage: string) {
+  constructor() {
+    this.products = new Products();
+    // this.initialPage = new HomePage('home-page');
+    this.header = new Header('header', 'header');
+  }
+
+  renderNewPage = (idPage: string) => {
+    console.log('Render NEW');
     const currentPageHTML = document.querySelector(`#${App.defaultPageId}`);
     if (currentPageHTML) {
       currentPageHTML.remove();
@@ -27,9 +37,13 @@ export default class App {
     } else if (idPage === PageIds.CartPage) {
       page = new CartPage(idPage);
     } else if (idPage === PageIds.ProductListPage) {
-      page = new ProductListPage(idPage);
+      page = new ProductListPage(idPage, this.products);
     } else {
       page = new ErrorPage(idPage, ErrorTypes.Error_404);
+    }
+
+    if(page instanceof ProductListPage) {
+      this.products.updateURL();
     }
 
     if (page) {
@@ -37,24 +51,40 @@ export default class App {
       pageHTML.id = App.defaultPageId;
       App.container.append(pageHTML);
     }
-  }
+  };
 
-  constructor() {
-    this.initialPage = new HomePage('home-page');
-    this.header = new Header('header', 'header');
+  private async loadData() {
+    const endPoint = `https://dummyjson.com/products?limit=100`;
+    fetch(endPoint)
+      .then((res) => res.json())
+      .then((data) => {
+        this.products.initProducts(data.products);
+        this.products.bindRender(this.renderNewPage);
+        const hash = window.location.hash.slice(1);
+        if(hash === '') {
+          this.renderNewPage('home-page');
+          console.log('HASH = ""');
+        } else {
+          this.renderNewPage(hash);
+          console.log(hash);
+        }
+      });
   }
 
   private enableRouteChange() {
     window.addEventListener('hashchange', () => {
+      const url = new URL(window.location.href);
+      url.search = '';
+      window.history.pushState({}, '', url.href);
       const hash = window.location.hash.slice(1);
-      App.renderNewPage(hash);
+      this.renderNewPage(hash);
+      console.log('HASHCHANGE');
     });
   }
 
   public run(): void {
-    console.log(this.initialPage);
+    this.loadData();
     this.enableRouteChange();
     App.container.append(this.header.render());
-    App.renderNewPage('home-page');
   }
 }

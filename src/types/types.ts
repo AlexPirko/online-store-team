@@ -1,4 +1,5 @@
 export interface Product {
+  [index: string ]: string | number| string[] | number[];
   id: number;
   title: string;
   description: string;
@@ -19,7 +20,7 @@ export enum PageIds {
 }
 
 export enum ErrorTypes {
-  Error_404 = '404'
+  Error_404 = '404',
 }
 
 export type LoaderCallBack = (data: { products?: Product[] }) => void;

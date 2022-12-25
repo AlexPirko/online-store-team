@@ -1,0 +1,35 @@
+.filter-block {
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid #bebdbd;
+  margin-bottom: 20px;
+  color: #505050;
+}
+.filter-block h3 {
+  text-align: center;
+  margin: 0;
+  padding: 15px;
+  color: white;
+  background-color: #bebdbd;
+}
+
+.filter-form {
+  overflow-y: scroll;
+  max-height: 150px;
+  background-color: #fff;
+}
+
+.filter-item {
+  display: flex;
+  padding: 5px;
+  border-bottom: 1px solid #bebdbd ;
+}
+
+.filter-item.hide {
+  background-color: #dcdcdc;
+  color: #9c9c9c;
+}
+
+.filter-block span {
+  margin-left: auto;
+}
