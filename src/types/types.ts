@@ -1,5 +1,5 @@
 export interface Product {
-  [index: string ]: string | number| string[] | number[];
+  [index: string]: string | number | string[] | number[];
   id: number;
   title: string;
   description: string;

@@ -12,15 +12,44 @@ export default class ProductsTopBar extends Component {
 
   override render() {
     const html = `
-      <select id=sort>
-        <option value='Price-ASC'>Price ASC</option>
-        <option value='Price-DESC'>Price DESC</option>
-        <option value='Rating-ASC'>Rating ASC</option>
-        <option value='Rating-DESC'>Rating DESC</option>
-      </select>
-      <input autofocus type='text' id='filter'>
+      <div>
+        <select id=sort>
+          <option value='Price-ASC'>Price ASC</option>
+          <option value='Price-DESC'>Price DESC</option>
+          <option value='Rating-ASC'>Rating ASC</option>
+          <option value='Rating-DESC'>Rating DESC</option>
+        </select>
+        <input id='filter' type='text' placeholder='Search product' autofocus >
+      </div>
+      <div class='view-buttons'>
+        <button id='grid' class='grid-view' data-view='grid'></button>
+        <button id='list' class='line-view' data-view='list'></button>
+      </div>
     `;
     this.container.innerHTML = html;
+
+    const viewButtonsContainer = this.container.querySelector('.view-buttons') as Element;
+    const viewButtons = viewButtonsContainer.querySelectorAll('button');
+
+    const initActiveButton = () => {
+      const viewValue = this.products.opts.view;
+      if (viewValue) {
+        this.container.querySelector(`#${viewValue}`)?.classList.add('active');
+      } else {
+        viewButtons[0]?.classList.add('active');
+      }
+    };
+    initActiveButton();
+
+    viewButtonsContainer?.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (target.matches('button')) {
+        viewButtons.forEach((button) => button.classList.remove('active'));
+        target.classList.add('active');
+        this.products.updateOpts('view', target.dataset.view as string);
+      }
+    });
+
     const optionsList = this.container.querySelectorAll('option');
     optionsList.forEach((option) => {
       if (option.value === this.products.opts.sort) {
@@ -32,12 +61,12 @@ export default class ProductsTopBar extends Component {
       this.products.updateOpts('sort', select.value);
     });
     const filterInput = this.container.querySelector('input') as HTMLInputElement;
-    if(this.products.opts.search) {
+    if (this.products.opts.search) {
       filterInput.value = this.products.opts.search as string;
     }
     filterInput?.addEventListener('input', (e: Event) => {
       const input = e.target as HTMLInputElement;
-      this.products.updateOpts('search', input.value, ['dual-block','filter-block']);
+      this.products.updateOpts('search', input.value, ['dual-block', 'filter-block']);
     });
 
     return this.container;

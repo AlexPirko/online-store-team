@@ -44,7 +44,7 @@ export default class Products {
       this.opts[key] = value;
     } else {
       if (key === 'search') {
-        this.items = [...this.initialItems as Product[]];
+        this.items = [...(this.initialItems as Product[])];
       }
       delete this.opts[key];
     }
@@ -74,24 +74,33 @@ export default class Products {
   // }
 
   updateItems() {
-    let items: Product[] = [...this.initialItems as Product[]];
-    for (let key of Object.keys(this.opts)) {
+    let items: Product[] = [...(this.initialItems as Product[])];
+    for (const key of Object.keys(this.opts)) {
       if (key === 'sort') {
-        items = sort(this.opts[key] as string, items)
+        items = sort(this.opts[key] as string, items);
       } else if (key === 'search') {
-        items = items.filter(item => item.title.indexOf(this.opts[key] as string) !== -1) as Product[]
+        items = items.filter((item) => item.title.indexOf(this.opts[key] as string) !== -1) as Product[];
       } else if (key === 'category' || key === 'brand') {
         const filterArr = this.opts[key]?.split('↕');
-        items = items.filter(item => filterArr?.some(str => str === item[key]));
+        items = items.filter((item) => filterArr?.some((str) => str === item[key]));
       } else if (key === 'price' || key === 'stock') {
-        const [min, max] = this.opts[key]?.split('↕').map(num => +num) as [number, number];
+        const [min, max] = this.opts[key]?.split('↕').map((num) => +num) as [number, number];
         items = items.filter((item: Product) => {
           const value = item[key] as number;
-          return (value >= min) && (value <= max);
+          return value >= min && value <= max;
         });
+      } else if (key === 'view') {
+        const viewValue = this.opts[key];
+        const productList = document.querySelector('.product-list');
+        if (viewValue === 'list') {
+          productList?.classList.remove('grid');
+          productList?.classList.add('list');
+        } else if (viewValue === 'grid') {
+          productList?.classList.remove('list');
+          productList?.classList.add('grid');
+        }
       }
     }
-    console.log(items);
     this.items = items;
   }
 
@@ -99,11 +108,11 @@ export default class Products {
     this.addOpts(name, value);
     this.updateItems();
     this.updateURL();
-    const productList = new ProductList('div', 'product-list', this.items as Product[]).render();
+    const productList = new ProductList('div', 'product-list', this).render();
     const elem = document.querySelector('.products-wrap') as Element;
     elem.innerHTML = '';
     elem.appendChild(productList);
-    reRender?.forEach(block => {
+    reRender?.forEach((block) => {
       if (block === 'dual-block') {
         const dualfilterBlocsWrap = document.querySelector('.dualfilter-blocks-wrap') as Element;
         dualfilterBlocsWrap.innerHTML = '';
@@ -111,7 +120,6 @@ export default class Products {
         const stockDualFilter = new DualFilter('div', 'dual-filter', 'stock', this).render();
         dualfilterBlocsWrap.append(priceDualFilter);
         dualfilterBlocsWrap.append(stockDualFilter);
-
       } else if (block === 'filter-block') {
         const filterBlocsWrap = document.querySelector('.filter-blocks-wrap') as Element;
         filterBlocsWrap.innerHTML = '';
@@ -147,12 +155,11 @@ export default class Products {
         // }
         console.log('DEFAULT !!!');
     }
-
   }
 
   search(text?: string) {
     if (text) {
-      const updateItems = this.initialItems?.filter(item => item.title.indexOf(text) !== -1) as Product[];
+      const updateItems = this.initialItems?.filter((item) => item.title.indexOf(text) !== -1) as Product[];
       this.items = updateItems;
       this.sort(this.opts.sort);
     }

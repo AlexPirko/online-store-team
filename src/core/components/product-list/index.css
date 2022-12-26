@@ -1,0 +1,13 @@
+.product-list.grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 20px;
+  padding: 10px;
+}
+
+.product-list.list {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 20px;
+  padding: 10px;
+}

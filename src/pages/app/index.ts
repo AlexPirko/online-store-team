@@ -42,7 +42,7 @@ export default class App {
       page = new ErrorPage(idPage, ErrorTypes.Error_404);
     }
 
-    if(page instanceof ProductListPage) {
+    if (page instanceof ProductListPage) {
       this.products.updateURL();
     }
 
@@ -61,7 +61,7 @@ export default class App {
         this.products.initProducts(data.products);
         this.products.bindRender(this.renderNewPage);
         const hash = window.location.hash.slice(1);
-        if(hash === '') {
+        if (hash === '') {
           this.renderNewPage('home-page');
           console.log('HASH = ""');
         } else {

@@ -1,4 +1,4 @@
-import { Product } from "../types/types";
+import { Product } from '../types/types';
 
 export default function sort(method: string, items: Product[]) {
   const arr = [...items];

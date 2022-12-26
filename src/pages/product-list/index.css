@@ -2,3 +2,6 @@
   display: flex;
   margin-left: 10px;
 }
+.product-section {
+  flex: 1;
+}

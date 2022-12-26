@@ -1,6 +1,5 @@
 import './index.css';
 import Products from '../../core/Products';
-import { Product } from '../../types/types';
 import Page from '../../core/templates/page';
 import ProductsTopBar from '../../core/components/products-topbar';
 import ProductList from '../../core/components/product-list';
@@ -24,13 +23,13 @@ export default class ProductListPage extends Page {
   public override render() {
     const filterBar = new FilterBar('div', 'filter-bar', this.products).render();
 
-    const filterBlocksWrap = makeElement('div','filter-blocks-wrap');
-    const dualFilterBlocksWrap = makeElement('div','dualfilter-blocks-wrap');
+    const filterBlocksWrap = makeElement('div', 'filter-blocks-wrap');
+    const dualFilterBlocksWrap = makeElement('div', 'dualfilter-blocks-wrap');
 
     const categoryFilter = new FilterBlock('div', 'filter-block', 'category', this.products).render();
     const brandFilter = new FilterBlock('div', 'filter-block', 'brand', this.products).render();
-    const priceDualFilter = new DualFilter('div', 'dual-filter','price',  this.products).render();
-    const stockDualFilter = new DualFilter('div', 'dual-filter','stock',  this.products).render();
+    const priceDualFilter = new DualFilter('div', 'dual-filter', 'price', this.products).render();
+    const stockDualFilter = new DualFilter('div', 'dual-filter', 'stock', this.products).render();
 
     filterBlocksWrap.append(categoryFilter);
     filterBlocksWrap.append(brandFilter);
@@ -44,7 +43,7 @@ export default class ProductListPage extends Page {
     productSection.classList.add('product-section');
     const productsWrap = document.createElement('div');
     productsWrap.classList.add('products-wrap');
-    const productList = new ProductList('div', 'product-list', this.products.items as Product[]).render();
+    const productList = new ProductList('div', 'product-list', this.products).render();
     productsWrap.append(productList);
     const topBar = new ProductsTopBar('div', 'products-list-topbar', this.products).render();
     productSection.append(topBar);

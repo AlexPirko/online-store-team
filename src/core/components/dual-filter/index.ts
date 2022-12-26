@@ -1,9 +1,10 @@
 import './index.css';
-import Component from "../../templates/component";
-import Products from "../../Products";
+import Component from '../../templates/component';
+import Products from '../../Products';
 
 export default class DualFilter extends Component {
   protected products: Products;
+
   protected filterBy: string;
 
   constructor(tagName: string, className: string, filterBy: string, products: Products) {
@@ -23,17 +24,16 @@ export default class DualFilter extends Component {
   }
 
   override render() {
-
-    const allNumbers = this.products.initialItems?.map(product => product[this.filterBy]) as number[];
+    const allNumbers = this.products.initialItems?.map((product) => product[this.filterBy]) as number[];
     const maxValue = Math.max(...allNumbers);
     const minValue = Math.min(...allNumbers);
-    const availableNumbers = this.products.items?.map(product => product[this.filterBy]) as number[];
+    const availableNumbers = this.products.items?.map((product) => product[this.filterBy]) as number[];
     const maxAvailableValue = Math.max(...availableNumbers);
     const minAvailableValue = Math.min(...availableNumbers);
     let optsMin: null | number = null;
     let optsMax: null | number = null;
     if (this.products.opts[this.filterBy]) {
-      [optsMin, optsMax] = this.products.opts[this.filterBy]?.split('↕').map(num => +num) as [number, number];
+      [optsMin, optsMax] = this.products.opts[this.filterBy]?.split('↕').map((num) => +num) as [number, number];
     }
     const html = `
     <div class="range_container">
@@ -60,24 +60,59 @@ export default class DualFilter extends Component {
       </div>
       </div>
       <div class="sliders_control">
-      <input id="fromSlider" type="range" value="${minAvailableValue || optsMin || minValue}" min="${minValue}" max="${maxValue}"/>
-      <input id="toSlider" type="range" value="${maxAvailableValue || optsMax || maxValue}" min="${minValue}" max="${maxValue}"/>
+      <input id="fromSlider" type="range" value="${
+        minAvailableValue || optsMin || minValue
+      }" min="${minValue}" max="${maxValue}"/>
+      <input id="toSlider" type="range" value="${
+        maxAvailableValue || optsMax || maxValue
+      }" min="${minValue}" max="${maxValue}"/>
       </div>
       </div>
     </div>
     `;
     this.container.innerHTML = html;
 
-    const fromSlider = this.container.querySelector('#fromSlider') as HTMLInputElement;
-    const toSlider = this.container.querySelector('#toSlider') as HTMLInputElement;
-    const fromInput = this.container.querySelector('#fromInput') as HTMLInputElement;
-    const toInput = this.container.querySelector('#toInput') as HTMLInputElement;
+    function getParsed(currentFrom: HTMLInputElement, currentTo: HTMLInputElement): [number, number] {
+      const from: number = parseInt(currentFrom.value, 10);
+      const to: number = parseInt(currentTo.value, 10);
+      return [from, to];
+    }
+
+    function fillSlider(
+      from: HTMLInputElement,
+      to: HTMLInputElement,
+      sliderColor: string,
+      rangeColor: string,
+      controlSlider: HTMLInputElement
+    ): void {
+      const rangeDistance = +to.max - +to.min;
+      const fromPosition = +from.value - +to.min;
+      const toPosition = +to.value - +to.min;
+      controlSlider.style.background = `linear-gradient(
+        to right,
+        ${sliderColor} 0%,
+        ${sliderColor} ${(fromPosition / rangeDistance) * 100}%,
+        ${rangeColor} ${(fromPosition / rangeDistance) * 100}%,
+        ${rangeColor} ${(toPosition / rangeDistance) * 100}%, 
+        ${sliderColor} ${(toPosition / rangeDistance) * 100}%, 
+        ${sliderColor} 100%)`;
+    }
+
+    function setToggleAccessible(currentTarget: HTMLInputElement, target: HTMLInputElement) {
+      // const toSlider = document.querySelector('#toSlider') as HTMLInputElement;
+      if (+currentTarget.value <= +currentTarget.min) {
+        target.style.zIndex = `${2}`;
+      } else {
+        target.style.zIndex = `${0}`;
+      }
+    }
 
     function controlFromInput(
       fromSlider: HTMLInputElement,
       fromInput: HTMLInputElement,
       toInput: HTMLInputElement,
-      controlSlider: HTMLInputElement): void {
+      controlSlider: HTMLInputElement
+    ): void {
       const [from, to] = getParsed(fromInput, toInput);
       fillSlider(fromInput, toInput, '#C6C6C6', '#0075ff', controlSlider);
       if (from > to) {
@@ -92,10 +127,11 @@ export default class DualFilter extends Component {
       toSlider: HTMLInputElement,
       fromInput: HTMLInputElement,
       toInput: HTMLInputElement,
-      controlSlider: HTMLInputElement): void {
+      controlSlider: HTMLInputElement
+    ): void {
       const [from, to] = getParsed(fromInput, toInput);
       fillSlider(fromInput, toInput, '#C6C6C6', '#0075ff', controlSlider);
-      setToggleAccessible(toInput);
+      setToggleAccessible(toInput, toSlider);
       if (from <= to) {
         toSlider.value = `${to}`;
         toInput.value = `${to}`;
@@ -107,7 +143,8 @@ export default class DualFilter extends Component {
     const controlFromSlider = (
       fromSlider: HTMLInputElement,
       toSlider: HTMLInputElement,
-      fromInput: HTMLInputElement): void => {
+      fromInput: HTMLInputElement
+    ): void => {
       const [from, to] = getParsed(fromSlider, toSlider);
       fillSlider(fromSlider, toSlider, '#C6C6C6', '#0075ff', toSlider);
       if (from > to) {
@@ -118,15 +155,16 @@ export default class DualFilter extends Component {
       }
       const value = this.getRange(fromSlider, toSlider);
       this.updateOpts(value);
-    }
+    };
 
     const controlToSlider = (
       fromSlider: HTMLInputElement,
       toSlider: HTMLInputElement,
-      toInput: HTMLInputElement): void => {
+      toInput: HTMLInputElement
+    ): void => {
       const [from, to] = getParsed(fromSlider, toSlider);
       fillSlider(fromSlider, toSlider, '#C6C6C6', '#0075ff', toSlider);
-      setToggleAccessible(toSlider);
+      setToggleAccessible(toSlider, toSlider);
       if (from <= to) {
         toSlider.value = `${to}`;
         toInput.value = `${to}`;
@@ -136,45 +174,15 @@ export default class DualFilter extends Component {
       }
       const value = this.getRange(fromSlider, toSlider);
       this.updateOpts(value);
-    }
+    };
 
-    function getParsed(currentFrom: HTMLInputElement, currentTo: HTMLInputElement): [number, number] {
-      const from: number = parseInt(currentFrom.value, 10);
-      const to: number = parseInt(currentTo.value, 10);
-      return [from, to];
-    }
-
-    function fillSlider(
-      from: HTMLInputElement,
-      to: HTMLInputElement,
-      sliderColor: string,
-      rangeColor: string,
-      controlSlider: HTMLInputElement): void {
-      const rangeDistance = +to.max - +to.min;
-      const fromPosition = +from.value - +to.min;
-      const toPosition = +to.value - +to.min;
-      controlSlider.style.background = `linear-gradient(
-        to right,
-        ${sliderColor} 0%,
-        ${sliderColor} ${(fromPosition) / (rangeDistance) * 100}%,
-        ${rangeColor} ${((fromPosition) / (rangeDistance)) * 100}%,
-        ${rangeColor} ${(toPosition) / (rangeDistance) * 100}%, 
-        ${sliderColor} ${(toPosition) / (rangeDistance) * 100}%, 
-        ${sliderColor} 100%)`;
-    }
-
-    function setToggleAccessible(currentTarget: HTMLInputElement) {
-      // const toSlider = document.querySelector('#toSlider') as HTMLInputElement;
-      if (Number(currentTarget.value) <= 0) {
-        toSlider.style.zIndex = `${2}`;
-      } else {
-        toSlider.style.zIndex = `${0}`;
-      }
-    }
-
+    const fromSlider = this.container.querySelector('#fromSlider') as HTMLInputElement;
+    const toSlider = this.container.querySelector('#toSlider') as HTMLInputElement;
+    const fromInput = this.container.querySelector('#fromInput') as HTMLInputElement;
+    const toInput = this.container.querySelector('#toInput') as HTMLInputElement;
 
     fillSlider(fromSlider, toSlider, '#C6C6C6', '#0075ff', toSlider);
-    setToggleAccessible(toSlider);
+    setToggleAccessible(toSlider, toSlider);
 
     fromSlider.oninput = () => controlFromSlider(fromSlider, toSlider, fromInput);
     toSlider.oninput = () => controlToSlider(fromSlider, toSlider, toInput);
