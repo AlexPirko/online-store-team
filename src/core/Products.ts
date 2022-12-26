@@ -3,6 +3,7 @@ import ProductList from './components/product-list';
 import FilterBlock from './components/filter-block';
 import DualFilter from './components/dual-filter';
 import sort from '../funcs/sort';
+import search from '../funcs/search-products';
 
 type ProductsOpts = {
   sort?: string;
@@ -79,7 +80,8 @@ export default class Products {
       if (key === 'sort') {
         items = sort(this.opts[key] as string, items);
       } else if (key === 'search') {
-        items = items.filter((item) => item.title.indexOf(this.opts[key] as string) !== -1) as Product[];
+        // items = items.filter((item) => item.title.indexOf(this.opts[key] as string) !== -1) as Product[];
+        items = search(items, this.opts[key] as string);
       } else if (key === 'category' || key === 'brand') {
         const filterArr = this.opts[key]?.split('↕');
         items = items.filter((item) => filterArr?.some((str) => str === item[key]));
