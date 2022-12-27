@@ -4,6 +4,8 @@ import FilterBlock from './components/filter-block';
 import DualFilter from './components/dual-filter';
 import sort from '../funcs/sort';
 import search from '../funcs/search-products';
+// import checkCopyURL from '../funcs/checkCopyURL';
+import { PageIds } from '../types/types';
 
 type ProductsOpts = {
   sort?: string;
@@ -12,19 +14,22 @@ type ProductsOpts = {
 };
 
 export default class Products {
-  public items: Product[] | null;
+  items: Product[] | null;
 
-  public initialItems: Product[] | null;
+  initialItems: Product[] | null;
 
-  public render: ((id: string) => void) | null;
+  render: ((id: string) => void) | null;
 
-  public opts: ProductsOpts;
+  opts: ProductsOpts;
+
+  copiedURL: string;
 
   constructor() {
     this.initialItems = null;
     this.items = null;
     this.render = null;
     this.opts = {};
+    this.copiedURL = '';
   }
 
   initProducts(productsArr: Product[]) {
@@ -58,21 +63,6 @@ export default class Products {
     url.search = params.toString();
     window.history.pushState({}, '', url.href);
   }
-
-  // updateItems() {
-  //   // this.items =[...this.initialItems as Product[]];
-  //   // let items = [...this.items as Product[]];
-
-  //   for(let key of Object.keys(this.opts)) {
-  //     if(key === 'sort') {
-  //       this.sort(this.opts[key])
-  //     } else if(key === 'search') {
-  //       this.search(this.opts[key])
-  //     } else if (key ==='category') {
-  //       console.log('UPDATE CATEGORY')
-  //     }
-  //   }
-  // }
 
   updateItems() {
     let items: Product[] = [...(this.initialItems as Product[])];
@@ -110,6 +100,7 @@ export default class Products {
     this.addOpts(name, value);
     this.updateItems();
     this.updateURL();
+    this.checkCopiedURL();
     const productList = new ProductList('div', 'product-list', this).render();
     const elem = document.querySelector('.products-wrap') as Element;
     elem.innerHTML = '';
@@ -133,37 +124,22 @@ export default class Products {
     });
   }
 
-  sort(method?: string) {
-    switch (method) {
-      case 'Price-ASC':
-        this.items?.sort((a, b) => a.price - b.price);
-        // console.log(this.items?.map((item) => item.id));
-        break;
-      case 'Price-DESC':
-        this.items?.sort((a, b) => b.price - a.price);
-        // console.log(this.items?.map((item) => item.id));
-        break;
-      case 'Rating-ASC':
-        this.items?.sort((a, b) => a.rating - b.rating);
-        // console.log(this.items?.map((item) => item.id));
-        break;
-      case 'Rating-DESC':
-        this.items?.sort((a, b) => b.rating - a.rating);
-        // console.log(this.items?.map((item) => item.id));
-        break;
-      default:
-        // if (this.initialItems) {
-        //   this.items = [...this.initialItems];
-        // }
-        console.log('DEFAULT !!!');
+  resetOpts() {
+    this.opts = {};
+    this.updateURL();
+    this.items = [...(this.initialItems as Product[])];
+    if (this.render) {
+      this.render(PageIds.ProductListPage);
     }
   }
 
-  search(text?: string) {
-    if (text) {
-      const updateItems = this.initialItems?.filter((item) => item.title.indexOf(text) !== -1) as Product[];
-      this.items = updateItems;
-      this.sort(this.opts.sort);
+  checkCopiedURL() {
+    const button = document.querySelector('.copy-link');
+    const currentURL = window.location.href;
+    if (currentURL === this.copiedURL) {
+      return;
+    } else {
+      button?.classList.remove('active');
     }
   }
 

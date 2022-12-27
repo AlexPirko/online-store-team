@@ -8,3 +8,33 @@
   box-sizing: border-box;
   background-color: rgb(247, 247, 247);
 }
+
+.reset-copy {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.reset-copy button {
+  border: 1px solid #bebebe;
+  background-color: #fff;
+  height: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  outline: none;
+  color: #505050;
+  cursor: pointer;
+  transition: all 200ms ease-out;
+}
+
+.reset-copy button:hover {
+  background-color: #0075ff;
+  color: #fff;
+  border: none;
+}
+.copy-link.active {
+  background-color: green;
+  color: #fff;
+}
+.copy-link.active:hover {
+  background-color: rgb(1, 148, 1);
+}

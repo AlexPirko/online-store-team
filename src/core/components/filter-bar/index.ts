@@ -10,4 +10,23 @@ export default class FilterBar extends Component {
     super(tagName, className);
     this.products = products;
   }
+
+  override render() {
+    const html = `
+      <div class='reset-copy'>
+        <button class='reset-filters'>Reset Filters</button>
+        <button class='copy-link'>Copy Link</button>
+      </div>
+    `;
+    this.container.innerHTML = html;
+    const resetButton = this.container.querySelector('.reset-filters');
+    const copyButton = this.container.querySelector('.copy-link');
+    resetButton?.addEventListener('click', () => this.products.resetOpts());
+    copyButton?.addEventListener('click', () => {
+      this.products.copiedURL = window.location.href;
+      navigator.clipboard.writeText(window.location.href);
+      copyButton.classList.add('active');
+    });
+    return this.container;
+  }
 }

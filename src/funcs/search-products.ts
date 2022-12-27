@@ -1,4 +1,4 @@
-import { Product } from "../types/types";
+import { Product } from '../types/types';
 
 export default function search(products: Product[], filterValue: string): Product[] {
   let result = [...products];
@@ -6,7 +6,7 @@ export default function search(products: Product[], filterValue: string): Produc
     console.log('SEARCH NUMBER');
     result = result.filter(({ price, stock }) => {
       const value = +filterValue;
-      return (value === price) || (value === stock);
+      return value === price || value === stock;
     });
   } else {
     console.log('SEARCH STRING');
