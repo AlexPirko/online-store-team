@@ -6,6 +6,7 @@ import Header from '../../core/components/header';
 import { ErrorTypes, PageIds } from '../../types/types';
 import ErrorPage from '../error';
 import Products from '../../core/Products';
+import ProductDetails from '../details';
 
 export default class App {
   private static container: HTMLElement = document.body;
@@ -38,6 +39,9 @@ export default class App {
       page = new CartPage(idPage);
     } else if (idPage === PageIds.ProductListPage) {
       page = new ProductListPage(idPage, this.products);
+    } else if (idPage.match(new RegExp(PageIds.ProductDetails))) {
+      const productId = +(idPage.split('/')[1] as string);
+      page = new ProductDetails(PageIds.ProductDetails, productId, this.products);
     } else {
       page = new ErrorPage(idPage, ErrorTypes.Error_404);
     }

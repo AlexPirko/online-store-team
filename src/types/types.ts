@@ -17,6 +17,7 @@ export enum PageIds {
   HomePage = 'home-page',
   ProductListPage = 'product-list-page',
   CartPage = 'cart-page',
+  ProductDetails = 'product-details',
 }
 
 export enum ErrorTypes {
