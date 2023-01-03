@@ -11,6 +11,7 @@ export interface Product {
   category: string;
   thumbnail: string;
   images: string[];
+  total: number;
 }
 
 export enum PageIds {
@@ -24,3 +25,10 @@ export enum ErrorTypes {
 }
 
 export type LoaderCallBack = (data: { products?: Product[] }) => void;
+
+export interface CartProduct {
+  [key: string]: {
+    total: number;
+    product: Product;
+  };
+}

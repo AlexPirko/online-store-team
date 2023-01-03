@@ -6,9 +6,26 @@ import Component from '../../templates/component';
 export default class ProductCard extends Component {
   private item: Product;
 
-  constructor(tagName: string, className: string, item: Product) {
+  id: number | undefined;
+
+  constructor(tagName: string, className: string, item: Product, id?: number) {
     super(tagName, className);
     this.item = item;
+    this.id = id;
+  }
+
+  addProduct() {
+    let productData: Product[] = [];
+    if (window.localStorage.getItem('product-item')) {
+      productData = JSON.parse(window.localStorage.getItem('product-item') as string);
+      if (!productData.some((event) => event.id == this.id)) {
+        productData.push(this.item);
+        window.localStorage.setItem('product-item', JSON.stringify(productData));
+      }
+    } else {
+      productData.push(this.item);
+      window.localStorage.setItem('product-item', JSON.stringify(productData));
+    }
   }
 
   override render() {
@@ -28,7 +45,7 @@ export default class ProductCard extends Component {
     `;
     this.container.innerHTML = html;
     const button = this.container.querySelector('button');
-    button?.addEventListener('click', () => console.log(title));
+    button?.addEventListener('click', () => this.addProduct());
     return this.container;
   }
 }
