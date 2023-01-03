@@ -14,10 +14,16 @@ export default class ProductList extends Component {
 
   public override render() {
     const products = this.products.items as Product[];
-    products.forEach((item) => {
-      const card = new ProductCard('div', 'product-card', item).render();
-      this.container.append(card);
-    });
+    if (products.length === 0) {
+      this.container.innerHTML = 'Oops - No products!!!)';
+      this.container.className = '';
+      this.container.classList.add('no-products');
+    } else {
+      products.forEach((item) => {
+        const card = new ProductCard('div', 'product-card', item).render();
+        this.container.append(card);
+      });
+    }
     const viewValue = this.products.opts.view;
     if (viewValue) {
       this.container.classList.add(viewValue);

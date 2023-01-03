@@ -38,3 +38,10 @@
 .copy-link.active:hover {
   background-color: rgb(1, 148, 1);
 }
+
+@media screen and (max-width: 620px) {
+  .filter-bar {
+    margin: 0 10px;
+    width: auto;
+  }
+}

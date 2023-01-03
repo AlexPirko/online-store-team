@@ -1,0 +1,17 @@
+.rating-star {
+  position: relative;
+  margin-left: 10px;
+  width: 100px;
+  height: 20px;
+  /* background-image: linear-gradient(to right, #fec524 0%, #fec524 100%); */
+  mask-image: url('../../../assets/icons/stars-mask.svg');
+  -webkit-mask-image: url('../../../assets/icons/stars-mask.svg');
+}
+.rating-star::after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 20px;
+  background-image: url('../../../assets/icons/stars-stroke.svg');
+}
+

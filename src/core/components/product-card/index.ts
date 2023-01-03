@@ -12,7 +12,7 @@ export default class ProductCard extends Component {
   }
 
   override render() {
-    const { title, price, rating, images } = this.item;
+    const { title, price, rating, images, id } = this.item;
     const html = `
       <div class='img-wrap'>
         <img src='${images[0]}' alt='${title}'>
@@ -27,8 +27,13 @@ export default class ProductCard extends Component {
       </div>
     `;
     this.container.innerHTML = html;
+    const img = this.container.querySelector('img');
     const button = this.container.querySelector('button');
     button?.addEventListener('click', () => console.log(title));
+    img?.addEventListener('click', () => {
+      const newHash = `product-details/${id}`;
+      window.location.hash = newHash;
+    });
     return this.container;
   }
 }

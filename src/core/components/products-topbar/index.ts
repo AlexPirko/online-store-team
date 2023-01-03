@@ -21,6 +21,7 @@ export default class ProductsTopBar extends Component {
         </select>
         <input id='filter' type='text' placeholder='Search product' autofocus >
       </div>
+      <div class='products-amount'>Products: ${this.products.items?.length}</div>
       <div class='view-buttons'>
         <button id='grid' class='grid-view' data-view='grid'></button>
         <button id='list' class='line-view' data-view='list'></button>
