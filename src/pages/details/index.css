@@ -63,6 +63,7 @@
   border-radius: 5px;
   box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.5);
   transition: all 300ms ease-out;
+  max-height: 150px;
 }
 
 .thumbnail:hover {
@@ -162,4 +163,44 @@
   border: none;
   outline: none;
   border-radius: 5px;
+}
+
+@media screen and (max-width: 1000px) {
+  .product-details {
+    flex-direction: column;
+  }
+  .big-image-wrap {
+    width: auto;
+  }
+  .product-images {
+    flex-direction: column;
+    align-items: center;
+  }
+  .thumbnails-bar {
+    flex-direction: row;
+    align-items: center;
+  }
+  .thumbnail {
+    width: auto;
+    aspect-ratio: 1 / 1;
+  }
+  .thumbnail img {
+    max-width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+  .breadcrumbs {
+    gap: 10px;
+    flex-wrap: wrap;
+    font-size: 14px;
+  }
+  .product-details-title {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .product-details {
+    padding: 10px;
+  }
 }

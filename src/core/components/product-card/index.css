@@ -52,7 +52,7 @@
   box-sizing: border-box;
 }
 .product-list.grid .price {
-  font-size: 32px;
+  font-size: 24px;
   margin: 0;
 }
 .product-list.grid .add-product-button {

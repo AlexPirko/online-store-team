@@ -5,3 +5,10 @@
 .product-section {
   flex: 1;
 }
+
+@media screen and (max-width: 620px) {
+  .product-list-wrapper {
+    margin: 0;
+    flex-direction: column;
+  }
+}
