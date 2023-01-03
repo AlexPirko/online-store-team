@@ -64,6 +64,11 @@ export default class Products {
     window.history.pushState({}, '', url.href);
   }
 
+  updateProductAmount() {
+    const elem = document.querySelector('.products-amount') as HTMLElement;
+    elem.textContent = `Products: ${this.items?.length}`;
+  }
+
   updateItems() {
     let items: Product[] = [...(this.initialItems as Product[])];
     for (const key of Object.keys(this.opts)) {
@@ -101,6 +106,7 @@ export default class Products {
     this.updateItems();
     this.updateURL();
     this.checkCopiedURL();
+    this.updateProductAmount();
     const productList = new ProductList('div', 'product-list', this).render();
     const elem = document.querySelector('.products-wrap') as Element;
     elem.innerHTML = '';
