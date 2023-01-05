@@ -3,13 +3,17 @@ import { Product } from '../../../types/types';
 import Products from '../../Products';
 import Component from '../../templates/component';
 import ProductCard from '../product-card';
+import Cart from '../../Cart';
 
 export default class ProductList extends Component {
   protected products: Products;
 
-  constructor(tagName: string, className: string, products: Products) {
+  protected cart: Cart;
+
+  constructor(tagName: string, className: string, products: Products, cart: Cart) {
     super(tagName, className);
     this.products = products;
+    this.cart = cart;
   }
 
   public override render() {
@@ -20,7 +24,7 @@ export default class ProductList extends Component {
       this.container.classList.add('no-products');
     } else {
       products.forEach((item) => {
-        const card = new ProductCard('div', 'product-card', item).render();
+        const card = new ProductCard('div', 'product-card', item, this.cart).render();
         this.container.append(card);
       });
     }

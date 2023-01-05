@@ -65,9 +65,13 @@
   transition: all 200ms ease-out;
   cursor: pointer;
 }
+
+.product-list.grid .add-product-button.active {
+  background-color: green;
+}
+
 .product-list.grid .add-product-button:hover {
   transform: scale(1.1);
-  background-color: orange;
 }
 
 .product-list.list .product-card {

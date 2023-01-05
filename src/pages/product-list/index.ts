@@ -7,6 +7,7 @@ import FilterBar from '../../core/components/filter-bar';
 import FilterBlock from '../../core/components/filter-block';
 import DualFilter from '../../core/components/dual-filter';
 import makeElement from '../../funcs/makeElement';
+import Cart from '../../core/Cart';
 
 export default class ProductListPage extends Page {
   static override textObject = {
@@ -14,10 +15,12 @@ export default class ProductListPage extends Page {
   };
 
   protected products: Products;
+  protected cart: Cart;
 
-  constructor(idPage: string, products: Products) {
+  constructor(idPage: string, products: Products, cart: Cart) {
     super(idPage);
     this.products = products;
+    this.cart = cart;
   }
 
   public override render() {
@@ -43,7 +46,7 @@ export default class ProductListPage extends Page {
     productSection.classList.add('product-section');
     const productsWrap = document.createElement('div');
     productsWrap.classList.add('products-wrap');
-    const productList = new ProductList('div', 'product-list', this.products).render();
+    const productList = new ProductList('div', 'product-list', this.products, this.cart).render();
     productsWrap.append(productList);
     const topBar = new ProductsTopBar('div', 'products-list-topbar', this.products).render();
     productSection.append(topBar);

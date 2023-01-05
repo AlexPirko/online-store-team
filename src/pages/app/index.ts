@@ -6,6 +6,7 @@ import Header from '../../core/components/header';
 import { ErrorTypes, PageIds } from '../../types/types';
 import ErrorPage from '../error';
 import Products from '../../core/Products';
+import Cart from '../../core/Cart';
 import ProductDetails from '../details';
 
 export default class App {
@@ -15,13 +16,15 @@ export default class App {
 
   private products: Products;
 
+  private cart: Cart;
+
   // private initialPage: HomePage;
 
   private header: Header;
 
   constructor() {
     this.products = new Products();
-    // this.initialPage = new HomePage('home-page');
+    this.cart = new Cart();
     this.header = new Header('header', 'header');
   }
 
@@ -36,9 +39,9 @@ export default class App {
     if (idPage === PageIds.HomePage) {
       page = new HomePage(idPage);
     } else if (idPage === PageIds.CartPage) {
-      page = new CartPage(idPage);
+      page = new CartPage(idPage, this.cart);
     } else if (idPage === PageIds.ProductListPage) {
-      page = new ProductListPage(idPage, this.products);
+      page = new ProductListPage(idPage, this.products, this.cart);
     } else if (idPage.match(new RegExp(PageIds.ProductDetails))) {
       const productId = +(idPage.split('/')[1] as string);
       page = new ProductDetails(PageIds.ProductDetails, productId, this.products);
@@ -62,8 +65,10 @@ export default class App {
     fetch(endPoint)
       .then((res) => res.json())
       .then((data) => {
+        this.cart.initCart();
         this.products.initProducts(data.products);
         this.products.bindRender(this.renderNewPage);
+        this.products.bindCart(this.cart);
         const hash = window.location.hash.slice(1);
         if (hash === '') {
           this.renderNewPage('home-page');
