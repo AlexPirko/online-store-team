@@ -6,6 +6,7 @@ import Cart from '../../Cart';
 
 export default class ProductCard extends Component {
   private item: Product;
+
   private cart: Cart;
 
   constructor(tagName: string, className: string, item: Product, cart: Cart) {
@@ -33,28 +34,28 @@ export default class ProductCard extends Component {
     const img = this.container.querySelector('img');
     const button = this.container.querySelector('button') as HTMLButtonElement;
 
-
-    const isItemInCart = () => !!this.cart.items.find(item => item.id === id);
+    const isItemInCart = (id: number): boolean => !!this.cart.items.find((item) => item.id === id);
 
     const changeButtonView = (): void => {
-      if(isItemInCart()) {
+      if (isItemInCart(id)) {
         button.classList.add('active');
         button.textContent = 'Added ✓';
       } else {
         button.classList.remove('active');
         button.textContent = 'Add';
       }
-    }
-    changeButtonView();
+    };
     
+    changeButtonView();
+
     const addProductHandler = () => {
-      if(isItemInCart()) {
+      if (isItemInCart(id)) {
         this.cart.removeItem(id);
       } else {
         this.cart.addItem(this.item);
       }
       changeButtonView();
-    }
+    };
 
     button?.addEventListener('click', addProductHandler);
 

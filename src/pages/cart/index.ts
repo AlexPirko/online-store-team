@@ -4,16 +4,15 @@ import Page from '../../core/templates/page';
 import Cart from '../../core/Cart';
 import CartItem from '../../core/components/cart-item';
 import CartList from '../../core/components/cart-list';
+import Summary from '../../core/components/summary';
 
 export default class CartPage extends Page {
-
   cart: Cart;
 
   constructor(idPage: string, cart: Cart) {
     super(idPage);
     this.cart = cart;
   }
-
 
   updateCurrentPage() {
     const elem = this.container.querySelector('.current-page') as Element;
@@ -45,22 +44,22 @@ export default class CartPage extends Page {
       if (idx >= from && idx < to) {
         cartItems.append(new CartItem('div', 'cart-item', this.cart, item, idx + 1).render());
       }
-    })
+    });
   }
 
   limitInputHandler = (e: Event): void => {
     const input = e.target as HTMLInputElement;
-    if(+input.value < 1) {
+    if (+input.value < 1) {
       input.value = `${1}`;
     }
     this.cart.updateOpts('limit', +input.value);
     this.cart.checkEpmptyPage();
-  }
+  };
 
   public override render() {
-    const {page, limit} = this.cart.opts;
+    const { page, limit } = this.cart.opts;
     const availablePage = Math.ceil(this.cart.items.length / limit);
-    let html = `
+    const html = `
       <div class='cart-wrap'>
         <div class='products-in-cart'>
           <div class='top-section'>
@@ -78,7 +77,7 @@ export default class CartPage extends Page {
           <div class='cart-items-wrap'>
           </div>
         </div>
-        <div class='summary'>Summary</div>
+        <div class='summary-wrap'></div>
       </div>
     `;
 
@@ -89,13 +88,21 @@ export default class CartPage extends Page {
 
     cartItemsWrap?.append(cartItems);
 
+    const summaryWrap = this.container.querySelector('.summary-wrap');
+    summaryWrap?.append(new Summary('div', 'summary').render());
+
     const prevButton = this.container.querySelector('.prev-page');
     const nextButton = this.container.querySelector('.next-page');
     const limitInput = this.container.querySelector('#limit');
 
     prevButton?.addEventListener('click', () => this.prevPageHandler());
     nextButton?.addEventListener('click', () => this.nextPageHandler());
-    limitInput?.addEventListener('input', e => this.limitInputHandler(e));
+    limitInput?.addEventListener('input', (e) => this.limitInputHandler(e));
+
+    if(this.cart.items.length === 0) {
+      const wrapper = this.container.querySelector('.cart-wrap') as HTMLElement;
+      wrapper.innerHTML = 'Oops - Cart is Empty((';
+    }
 
     return this.container;
   }

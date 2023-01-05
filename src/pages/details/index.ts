@@ -4,19 +4,20 @@ import { Product } from '../../types/types';
 import Page from '../../core/templates/page';
 import loadImage from '../../funcs/loadImg';
 import RatingStar from '../../core/components/rating-star';
+import Cart from '../../core/Cart';
 
 export default class ProductDetails extends Page {
   private id: number;
 
-  private isAdded: boolean;
-
   private products: Products;
 
-  constructor(idPage: string, id: number, products: Products) {
+  private cart: Cart; 
+
+  constructor(idPage: string, id: number, products: Products, cart: Cart) {
     super(idPage);
     this.id = id;
-    this.isAdded = false;
     this.products = products;
+    this.cart = cart;
   }
 
   checkId(): boolean {
@@ -30,6 +31,9 @@ export default class ProductDetails extends Page {
     } else {
       const product = this.products.items?.find((item) => item.id === this.id) as Product;
       const { price, title, category, brand, images, description, discountPercentage, rating, stock } = product;
+
+      const isItemInCart = (id:number):boolean => !!this.cart.items.find((item) => item.id === id);
+
       const html = `
         <div class='container'>
           <h2 class='product-details-title'>${title}</h2>
@@ -102,10 +106,25 @@ export default class ProductDetails extends Page {
         thumbnails?.append(wrapper);
       });
 
+      const changeButtonView = (): void => {
+        if (isItemInCart(this.id)) {
+          addButton.classList.add('active');
+          addButton.textContent = 'Added ✓';
+        } else {
+          addButton.classList.remove('active');
+          addButton.textContent = 'Add';
+        }
+      };
+
+      changeButtonView();
+
       const addToCartHandler = () => {
-        this.isAdded = !this.isAdded;
-        addButton.textContent = this.isAdded ? 'Added ✓' : 'Add To Cart';
-        addButton.classList.toggle('active');
+        if (isItemInCart(this.id)) {
+          this.cart.removeItem(this.id);
+        } else {
+          this.cart.addItem(product);
+        }
+        changeButtonView();
       };
 
       const buyNowHandler = () => {

@@ -15,6 +15,7 @@ export default class ProductListPage extends Page {
   };
 
   protected products: Products;
+
   protected cart: Cart;
 
   constructor(idPage: string, products: Products, cart: Cart) {

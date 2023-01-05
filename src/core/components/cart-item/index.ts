@@ -1,11 +1,13 @@
 import './index.css';
-import { Product } from "../../../types/types";
-import Cart from "../../Cart";
-import Component from "../../templates/component";
+import { Product } from '../../../types/types';
+import Cart from '../../Cart';
+import Component from '../../templates/component';
 
 export default class CartItem extends Component {
   cart: Cart;
+
   item: Product;
+
   number: number;
 
   constructor(tagName: string, className: string, cart: Cart, item: Product, number: number) {
@@ -17,8 +19,9 @@ export default class CartItem extends Component {
 
   incItemHandler = () => {
     this.cart.incItem(this.item.id);
-    this.updateCartItem()
-  }
+    this.updateCartItem();
+  };
+
   decItemHandler = () => {
     this.cart.decItem(this.item.id);
     this.updateCartItem();
@@ -26,18 +29,17 @@ export default class CartItem extends Component {
       this.container.remove();
       // this.cart.updateItemNumbers();
     }
-  }
-
+  };
 
   updateCartItem = () => {
     const cartItemAmount = this.container.querySelector('.cart-item-value') as Element;
     const cartItemTotal = this.container.querySelector('.cart-item-total') as Element;
     cartItemAmount.textContent = String(this.item.cnt);
     cartItemTotal.textContent = `${(this.item.cnt || 1) * this.item.price}$`;
-  }
+  };
 
   override render() {
-    let html = `
+    const html = `
       <div>
         <span class='cart-item-number'>${this.number}</span>
         <div class='cart-img-wrap'>

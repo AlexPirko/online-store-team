@@ -44,7 +44,7 @@ export default class App {
       page = new ProductListPage(idPage, this.products, this.cart);
     } else if (idPage.match(new RegExp(PageIds.ProductDetails))) {
       const productId = +(idPage.split('/')[1] as string);
-      page = new ProductDetails(PageIds.ProductDetails, productId, this.products);
+      page = new ProductDetails(PageIds.ProductDetails, productId, this.products, this.cart);
     } else {
       page = new ErrorPage(idPage, ErrorTypes.Error_404);
     }
@@ -71,8 +71,7 @@ export default class App {
         this.products.bindCart(this.cart);
         const hash = window.location.hash.slice(1);
         if (hash === '') {
-          this.renderNewPage('home-page');
-          console.log('HASH = ""');
+          window.location.hash = PageIds.ProductListPage;
         } else {
           this.renderNewPage(hash);
           console.log(hash);
@@ -92,8 +91,8 @@ export default class App {
   }
 
   public run(): void {
-    this.loadData();
     this.enableRouteChange();
+    this.loadData();
     App.container.append(this.header.render());
   }
 }
