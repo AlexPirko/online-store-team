@@ -1,8 +1,15 @@
 import { Product } from '../types/types';
+import AppliedCode from './components/applied-code-item';
 import CartList from './components/cart-list';
 
 export default class Cart {
   items: Product[];
+
+  promocode: {
+    [key: string]: number;
+  }
+
+  appliedCodes: string[];
 
   opts: {
     page: number;
@@ -10,12 +17,79 @@ export default class Cart {
     [key: string]: number;
   };
 
+
   constructor() {
     this.items = [];
     this.opts = {
       page: 1,
       limit: 3,
     };
+    this.appliedCodes = [];
+    this.promocode = {
+      'rs22': 20,
+      'css': 10,
+      'js': 15,
+    }
+  }
+
+  getTotalDiscount():number {
+    return this.appliedCodes.reduce((a,b)=>a + (this.promocode[b] || 0),0)
+  }
+
+  getDiscountPrice():number {
+    const price = this.getTotalPrice();
+    const discount = this.getTotalDiscount();
+    return Math.round(price - ((price/100)*discount));
+  }
+
+  removePromoCode(name: string): void {
+    this.appliedCodes = this.appliedCodes.filter(item => item !== name);
+    console.log('Remove');
+    this.updateSummary();
+  }
+
+  setPromoCode(name: string): void {
+    if (this.appliedCodes.indexOf(name) === -1) {
+      this.appliedCodes.push(name);
+    }
+
+    this.updateSummary();
+
+    const appliedElem = document.querySelector('.applied-codes-wrap');
+    appliedElem?.classList.remove('hide');
+  }
+
+  updateSummary(): void {
+    if(!this.items.length) return;
+    const products = document.querySelector('.summary-products') as HTMLElement;
+    const totalPrice = document.querySelector('.summary-total') as HTMLElement;
+    const discountPrice = document.querySelector('.summary-discount') as HTMLElement;
+
+    products.textContent = `Products: ${this.getTotalCount()}`;
+    totalPrice.textContent = `Total: ${this.getTotalPrice()}$`;
+    discountPrice.textContent = `Total: ${this.getDiscountPrice()}$`
+
+    const appliedItems = document.querySelector('.applied-items') as HTMLElement;
+    appliedItems.innerHTML = '';
+    this.appliedCodes.forEach(item => {
+      const elem = new AppliedCode('div', item, this).render();
+      appliedItems?.append(elem);
+    })
+
+
+    if (this.appliedCodes.length === 0) {
+      const appliedElem = document.querySelector('.applied-codes-wrap');
+      appliedElem?.classList.add('hide');
+      totalPrice?.classList.remove('disable');
+      discountPrice?.classList.add('hide');
+    } else {
+      totalPrice?.classList.add('disable');
+      discountPrice?.classList.remove('hide');
+    }
+
+    const addButton = document.querySelector('.promo-add-button');
+    addButton?.classList.remove('hide');
+    console.log(this.getDiscountPrice());
   }
 
   updateOpts(key: string, value: number) {
@@ -32,7 +106,7 @@ export default class Cart {
   }
 
   updateCartItems() {
-    if(this.items.length !== 0) {
+    if (this.items.length !== 0) {
       const availablePage = Math.ceil(this.items.length / this.opts.limit);
       const currentPage = document.querySelector('.current-page') as HTMLElement;
       currentPage.textContent = `Page: ${this.opts.page} / ${availablePage}`;
@@ -43,25 +117,30 @@ export default class Cart {
     }
   }
 
-  getTotalPrice():number {
-    return this.items.reduce((a,b)=> a + b.price * (b.cnt || 1), 0)
+  getTotalPrice(): number {
+    return this.items.reduce((a, b) => a + b.price * (b.cnt || 1), 0);
   }
 
-  checkEmptyCart():void {
-    if(this.items.length === 0) {
+  getTotalCount(): number {
+    return this.items.reduce((a, b) => a + (b.cnt || 1), 0);
+  }
+
+  checkEmptyCart(): void {
+    if (this.items.length === 0) {
       const cartWrap = document.querySelector('.cart-wrap');
-      if(cartWrap) {
+      if (cartWrap) {
         cartWrap.innerHTML = 'Oops - Cart is Empty((';
       }
     }
   }
 
-  updateHeader() {
+
+  updateHeader(): void {
     const itemCount = document.querySelector('.item-count') as HTMLElement;
-    const cartTotal =  document.querySelector('.header-total-price') as HTMLElement;
-    
+    const cartTotal = document.querySelector('.header-total-price') as HTMLElement;
+
     cartTotal.textContent = `Cart Total: ${this.getTotalPrice()}$`;
-    itemCount.textContent = `${this.items.length}`;
+    itemCount.textContent = `${this.getTotalCount()}`;
   }
 
   incPage() {
@@ -78,10 +157,6 @@ export default class Cart {
       this.updateOpts('page', this.opts.page - 1);
     }
   }
-  // setPage() {
-  //   const maxPageAmount = Math.ceil(this.items.length / this.itemsPerPage);
-  //   console.log(maxPageAmount);
-  // }
 
   initCart() {
     const cart = localStorage.getItem('cart');
@@ -89,6 +164,13 @@ export default class Cart {
       this.items = JSON.parse(cart);
     } else {
       this.items = [];
+    }
+
+    const promocodes = localStorage.getItem('promocodes');
+    if (promocodes) {
+      this.appliedCodes = JSON.parse(promocodes);
+    } else {
+      this.appliedCodes = [];
     }
 
     const url = new URL(window.location.href);
@@ -106,6 +188,7 @@ export default class Cart {
 
     window.addEventListener('beforeunload', () => {
       localStorage.setItem('cart', JSON.stringify(this.items));
+      localStorage.setItem('promocodes', JSON.stringify(this.appliedCodes));
     });
   }
 
@@ -116,6 +199,7 @@ export default class Cart {
       item.cnt += 1;
     }
     this.updateHeader();
+    this.updateSummary();
   }
 
   decItem(id: number): void {
@@ -133,6 +217,7 @@ export default class Cart {
       this.checkEpmptyPage();
     }
     this.updateHeader();
+    this.updateSummary();
   }
 
   checkEpmptyPage() {
@@ -164,5 +249,5 @@ export default class Cart {
     this.checkEmptyCart();
   }
 
-  saveCart() {}
+  saveCart() { }
 }

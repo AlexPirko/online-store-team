@@ -20,9 +20,12 @@
 
 .summary-wrap {
   width: 300px;
-  border: 1px solid #000;
+  border: 1px solid #bebdbd;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .cart-item-number {
   margin-right: 5px;
 }
+

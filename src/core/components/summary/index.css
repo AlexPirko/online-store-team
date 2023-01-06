@@ -1,0 +1,67 @@
+.summary-wrap {
+  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.5);
+}
+
+.summary {
+  text-align: center;
+  padding-bottom: 30px;
+}
+.summary-title {
+  text-align: center;
+  margin: 0;
+  padding: 15px;
+  color: white;
+  background-color: #9c9c9c;
+}
+
+.summary-products,
+.summary-total,
+.summary-discount {
+  font-size: 24px;
+  text-align: center;
+}
+
+.summary-total.disable {
+  color: rgb(252, 62, 28);
+  text-decoration: line-through;
+}
+
+.summary-discount.hide {
+  display: none;
+}
+
+.promo-wrap {
+  margin-bottom: 5px;
+}
+
+.test-code {
+  margin: 5px 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+.test-code span {
+  color: rgb(252, 62, 28);
+}
+
+.applied-codes-wrap {
+  border-radius: 5px;
+  margin: 0 10px 20px;
+  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.applied-codes-wrap.hide {
+  display: none;
+}
+
+.applied-codes-wrap h3 {
+  font-size: 16px;
+  margin: 0;
+  padding: 5px;
+  color: #fff;
+  background-color: green;
+}
+
+#promocode {
+  padding: 5px;
+}
