@@ -33,6 +33,11 @@ export default class Summary extends Component {
     }
   };
 
+  openModal() {
+    this.cart.toggleModal();
+    console.log('Open Modal');
+  }
+
   override render() {
     const html = `
       <h3 class='summary-title'>Summary</h3>
@@ -71,12 +76,9 @@ export default class Summary extends Component {
 
     input?.addEventListener('input', this.promoInputHandler);
 
-    const modal = this.container.querySelector('#modal') as HTMLButtonElement;
-    const modalWrap = document.body.querySelector('.modal-wrap') as HTMLButtonElement;
     const buyButton = this.container.querySelector('.buy-now') as HTMLButtonElement;
     buyButton?.addEventListener('click', () => {
-      modal.style.display = 'flex';
-      modalWrap.style.display = 'block';
+      this.openModal();
     });
 
     return this.container;

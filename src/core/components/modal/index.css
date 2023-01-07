@@ -3,8 +3,19 @@ h2 {
 }
 
 #modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(1, 1, 1, 0.8);
   display: flex;
   justify-content: center;
+  z-index: 3;
+  display: none;
+}
+#modal.open {
+  display: block;
 }
 
 .modal-block {

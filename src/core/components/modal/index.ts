@@ -1,15 +1,20 @@
 import './index.css';
 import CheckModalInput from '../../templates/checkModalInput';
 import Page from '../../templates/page';
+import Cart from '../../Cart';
 
 export default class ModalWindow extends Page {
+  cart: Cart;
+
+  constructor(idPage: string, cart: Cart) {
+    super(idPage);
+    this.cart = cart;
+  }
+
   override render() {
     const modalBlock = document.createElement('div');
     modalBlock.className = 'modal-block';
 
-    const modalWrap = document.createElement('div');
-    modalWrap.className = 'modal-wrap';
-    document.body.append(modalWrap);
     const modalTitle = document.createElement('h2');
     modalTitle.className = 'modal-title';
     modalTitle.innerText = 'Personal details';
@@ -185,8 +190,7 @@ export default class ModalWindow extends Page {
     buttonClose.innerText = ' ';
 
     buttonClose.addEventListener('click', () => {
-      modalWrap.remove();
-      modalBlock.remove();
+      this.cart.toggleModal();
     });
 
     button.addEventListener('click', () => {
@@ -219,9 +223,8 @@ export default class ModalWindow extends Page {
           modalBlock.classList.add('greetings');
         }, 700);
         setTimeout(() => {
-          modalWrap.remove();
-          modalBlock.remove();
-          localStorage.clear();
+          this.cart.clearCart();
+          this.cart.toggleModal();
         }, 3700);
       }
     });
