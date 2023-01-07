@@ -5,18 +5,16 @@
   gap: 20px;
   padding: 10px;
   box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.5);
-  margin-top: 10px;
   border-radius: 10px;
 }
 
 .cart-item > div:first-child {
   display: flex;
-  align-items: center;
   gap: 10px;
 }
 
 .cart-img-wrap {
-  width: 60px;
+  width: 100px;
   aspect-ratio: 1 / 1;
   border-radius: 5px;
   overflow: hidden;
@@ -38,4 +36,23 @@
 .cart-item-info h4,
 .cart-item-info p {
   margin: 0;
+}
+
+.cart-item-total {
+  font-weight: bold;
+}
+
+.cart-item-number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.cart-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }

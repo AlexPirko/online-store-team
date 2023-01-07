@@ -1,3 +1,4 @@
+import './index.css';
 import Page from '../../core/templates/page';
 import HomePage from '../home';
 import CartPage from '../cart';
@@ -8,9 +9,10 @@ import ErrorPage from '../error';
 import Products from '../../core/Products';
 import Cart from '../../core/Cart';
 import ProductDetails from '../details';
+import Footer from '../../core/components/footer';
 
 export default class App {
-  private static container: HTMLElement = document.body;
+  private static container: HTMLElement = document.querySelector('#root') as HTMLElement;
 
   private static defaultPageId = 'current-page';
 
@@ -21,11 +23,13 @@ export default class App {
   // private initialPage: HomePage;
 
   private header: Header;
+  private footer: Footer;
 
   constructor() {
     this.products = new Products();
     this.cart = new Cart();
     this.header = new Header('header', 'header');
+    this.footer = new Footer('footer', 'footer');
   }
 
   renderNewPage = (idPage: string) => {
@@ -56,7 +60,8 @@ export default class App {
     if (page) {
       const pageHTML = page.render();
       pageHTML.id = App.defaultPageId;
-      App.container.append(pageHTML);
+      const main = App.container.querySelector('main') as HTMLElement;
+      main.append(pageHTML);
     }
   };
 
@@ -90,9 +95,16 @@ export default class App {
     });
   }
 
+  private createBaseMarkUp():void {
+    const header = this.header.render();
+    const main = document.createElement('main');
+    const footer = this.footer.render();
+    App.container.append(header, main, footer);
+  }
+
   public run(): void {
     this.enableRouteChange();
     this.loadData();
-    App.container.append(this.header.render());
+    this.createBaseMarkUp();
   }
 }

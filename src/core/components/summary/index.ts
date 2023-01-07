@@ -60,6 +60,7 @@ export default class Summary extends Component {
       </div>
       <p class='test-code'>Promo for test: '<span>js</span>', '<span>rs22</span>', '<span>css</span>'</p>
       <div class='find-promo'></div>
+      <button class='buy-now'>BUY NOW</button>
     `;
     this.container.innerHTML = html;
 

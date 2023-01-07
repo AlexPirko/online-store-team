@@ -10,6 +10,10 @@
   color: rgb(80, 80, 80);
 }
 
+.product-list .add-product-button {
+  cursor: pointer;
+}
+
 .product-list.grid .product-card h3 {
   margin: 0;
   color: rgb(80, 80, 80);
@@ -66,6 +70,7 @@
   cursor: pointer;
 }
 
+.product-list.list .add-product-button.active, 
 .product-list.grid .add-product-button.active {
   background-color: green;
 }

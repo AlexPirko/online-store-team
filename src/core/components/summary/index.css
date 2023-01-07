@@ -9,7 +9,7 @@
 .summary-title {
   text-align: center;
   margin: 0;
-  padding: 15px;
+  padding: 18px;
   color: white;
   background-color: #9c9c9c;
 }
@@ -64,4 +64,10 @@
 
 #promocode {
   padding: 5px;
+}
+
+.buy-now {
+ padding: 10px;
+ margin-top: 20px;
+ cursor: pointer;
 }
