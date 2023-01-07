@@ -68,7 +68,7 @@ export default class ProductCard extends Component {
     titleElem.addEventListener('click', () => {
       const newHash = `product-details/${id}`;
       window.location.hash = newHash;
-    })
+    });
 
     return this.container;
   }
