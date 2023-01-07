@@ -3,7 +3,6 @@ import Component from '../../templates/component';
 import Cart from '../../Cart';
 import AppliedCode from '../applied-code-item';
 import PromocodeItem from '../promocode-item';
-import ModalWindow from '../../../core/components/modal/index';
 
 export default class Summary extends Component {
   cart: Cart;
@@ -33,15 +32,6 @@ export default class Summary extends Component {
       findPromo?.append(elem);
     }
   };
-
-  addModalWindow() {
-    const modalWindow = new ModalWindow('modal');
-    this.container.append(modalWindow.render());
-    const modal = this.container.querySelector('#modal') as HTMLButtonElement;
-    const modalWrap = document.body.querySelector('.modal-wrap') as HTMLButtonElement;
-    modal.style.display = 'none';
-    modalWrap.style.display = 'none';
-  }
 
   override render() {
     const html = `
@@ -85,7 +75,6 @@ export default class Summary extends Component {
     const modalWrap = document.body.querySelector('.modal-wrap') as HTMLButtonElement;
     const buyButton = this.container.querySelector('.buy-now') as HTMLButtonElement;
     buyButton?.addEventListener('click', () => {
-      this.addModalWindow();
       modal.style.display = 'flex';
       modalWrap.style.display = 'block';
     });

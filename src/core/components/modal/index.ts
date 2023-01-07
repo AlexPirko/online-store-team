@@ -27,9 +27,8 @@ export default class ModalWindow extends Page {
 
     inputName.addEventListener('input', () => {
       CheckModalInput.checkTextField(inputName, 2, 3);
-      if (nameBlock.hasChildNodes()) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        nameBlock.removeChild(nameBlock.childNodes[1]!);
+      if (nameBlock.hasChildNodes() && nameBlock.childNodes[1] !== undefined) {
+        nameBlock.removeChild(nameBlock.childNodes[1]);
       }
     });
 
@@ -43,9 +42,8 @@ export default class ModalWindow extends Page {
 
     inputPhone.addEventListener('input', () => {
       CheckModalInput.checkPhoneField(inputPhone);
-      if (phoneBlock.hasChildNodes()) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        phoneBlock.removeChild(phoneBlock.childNodes[1]!);
+      if (phoneBlock.hasChildNodes() && phoneBlock.childNodes[1] !== undefined) {
+        phoneBlock.removeChild(phoneBlock.childNodes[1]);
       }
     });
 
@@ -59,9 +57,8 @@ export default class ModalWindow extends Page {
 
     inputAddress.addEventListener('input', () => {
       CheckModalInput.checkTextField(inputAddress, 3, 5);
-      if (addressBlock.hasChildNodes()) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        addressBlock.removeChild(addressBlock.childNodes[1]!);
+      if (addressBlock.hasChildNodes() && addressBlock.childNodes[1] !== undefined) {
+        addressBlock.removeChild(addressBlock.childNodes[1]);
       }
     });
 
@@ -76,9 +73,8 @@ export default class ModalWindow extends Page {
 
     email.addEventListener('input', () => {
       CheckModalInput.checkEmailField(email);
-      if (emailBlock.hasChildNodes()) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        emailBlock.removeChild(emailBlock.childNodes[1]!);
+      if (emailBlock.hasChildNodes() && emailBlock.childNodes[1] !== undefined) {
+        emailBlock.removeChild(emailBlock.childNodes[1]);
       }
     });
 
@@ -115,9 +111,8 @@ export default class ModalWindow extends Page {
 
     inputNumber.addEventListener('input', () => {
       CheckModalInput.checkCardField(inputNumber);
-      if (numberWrap.hasChildNodes()) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        numberWrap.removeChild(numberWrap.childNodes[1]!);
+      if (numberWrap.hasChildNodes() && numberWrap.childNodes[1] !== undefined) {
+        numberWrap.removeChild(numberWrap.childNodes[1]);
       }
     });
 
@@ -145,9 +140,8 @@ export default class ModalWindow extends Page {
 
     inputDate.addEventListener('input', () => {
       CheckModalInput.checkDateField(inputDate);
-      if (dateWrap.hasChildNodes()) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        dateWrap.removeChild(dateWrap.childNodes[1]!);
+      if (dateWrap.hasChildNodes() && dateWrap.childNodes[1] !== undefined) {
+        dateWrap.removeChild(dateWrap.childNodes[1]);
       }
     });
     dateWrap.append(inputDate);
@@ -170,9 +164,8 @@ export default class ModalWindow extends Page {
 
     inputCvv.addEventListener('input', () => {
       CheckModalInput.checkCvvField(inputCvv);
-      if (cvvWrap?.hasChildNodes()) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        cvvWrap.removeChild(cvvWrap.childNodes[1]!);
+      if (cvvWrap?.hasChildNodes() && cvvWrap.childNodes[1] !== undefined) {
+        cvvWrap.removeChild(cvvWrap.childNodes[1]);
       }
     });
 

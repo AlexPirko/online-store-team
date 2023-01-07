@@ -5,6 +5,7 @@ import Cart from '../../core/Cart';
 import CartItem from '../../core/components/cart-item';
 import CartList from '../../core/components/cart-list';
 import Summary from '../../core/components/summary';
+import ModalWindow from '../../core/components/modal/index';
 
 export default class CartPage extends Page {
   cart: Cart;
@@ -92,6 +93,13 @@ export default class CartPage extends Page {
     prevButton?.addEventListener('click', () => this.prevPageHandler());
     nextButton?.addEventListener('click', () => this.nextPageHandler());
     limitInput?.addEventListener('input', (e) => this.limitInputHandler(e));
+
+    const modalWindow = new ModalWindow('modal');
+    this.container.append(modalWindow.render());
+    // const modal = this.container.querySelector('#modal') as HTMLButtonElement;
+    // const modalWrap = document.body.querySelector('.modal-wrap') as HTMLButtonElement;
+    // modal.style.display = 'none';
+    // modalWrap.style.display = 'none';
 
     if (this.cart.items.length === 0) {
       const wrapper = this.container.querySelector('.cart-wrap') as HTMLElement;
