@@ -2,6 +2,7 @@ import './index.css';
 import CheckModalInput from '../../templates/checkModalInput';
 import Page from '../../templates/page';
 import Cart from '../../Cart';
+import { PageIds } from '../../../types/types';
 
 export default class ModalWindow extends Page {
   cart: Cart;
@@ -224,7 +225,8 @@ export default class ModalWindow extends Page {
         }, 700);
         setTimeout(() => {
           this.cart.clearCart();
-          this.cart.toggleModal();
+          this.cart.isOpenModal = false;
+          window.location.hash = PageIds.ProductListPage;
         }, 3700);
       }
     });
