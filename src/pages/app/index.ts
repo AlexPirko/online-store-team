@@ -1,3 +1,4 @@
+import './index.css';
 import Page from '../../core/templates/page';
 import HomePage from '../home';
 import CartPage from '../cart';
@@ -6,27 +7,31 @@ import Header from '../../core/components/header';
 import { ErrorTypes, PageIds } from '../../types/types';
 import ErrorPage from '../error';
 import Products from '../../core/Products';
+import Cart from '../../core/Cart';
 import ProductDetails from '../details';
+import Footer from '../../core/components/footer';
 
 export default class App {
-  private static container: HTMLElement = document.body;
+  private static container: HTMLElement = document.querySelector('#root') as HTMLElement;
 
   private static defaultPageId = 'current-page';
 
   private products: Products;
 
-  // private initialPage: HomePage;
+  private cart: Cart;
 
   private header: Header;
 
+  private footer: Footer;
+
   constructor() {
     this.products = new Products();
-    // this.initialPage = new HomePage('home-page');
+    this.cart = new Cart();
     this.header = new Header('header', 'header');
+    this.footer = new Footer('footer', 'footer');
   }
 
   renderNewPage = (idPage: string) => {
-    console.log('Render NEW');
     const currentPageHTML = document.querySelector(`#${App.defaultPageId}`);
     if (currentPageHTML) {
       currentPageHTML.remove();
@@ -36,12 +41,12 @@ export default class App {
     if (idPage === PageIds.HomePage) {
       page = new HomePage(idPage);
     } else if (idPage === PageIds.CartPage) {
-      page = new CartPage(idPage);
+      page = new CartPage(idPage, this.cart);
     } else if (idPage === PageIds.ProductListPage) {
-      page = new ProductListPage(idPage, this.products);
+      page = new ProductListPage(idPage, this.products, this.cart);
     } else if (idPage.match(new RegExp(PageIds.ProductDetails))) {
       const productId = +(idPage.split('/')[1] as string);
-      page = new ProductDetails(PageIds.ProductDetails, productId, this.products);
+      page = new ProductDetails(PageIds.ProductDetails, productId, this.products, this.cart);
     } else {
       page = new ErrorPage(idPage, ErrorTypes.Error_404);
     }
@@ -53,7 +58,8 @@ export default class App {
     if (page) {
       const pageHTML = page.render();
       pageHTML.id = App.defaultPageId;
-      App.container.append(pageHTML);
+      const main = App.container.querySelector('main') as HTMLElement;
+      main.append(pageHTML);
     }
   };
 
@@ -62,15 +68,15 @@ export default class App {
     fetch(endPoint)
       .then((res) => res.json())
       .then((data) => {
+        this.cart.initCart();
         this.products.initProducts(data.products);
         this.products.bindRender(this.renderNewPage);
+        this.products.bindCart(this.cart);
         const hash = window.location.hash.slice(1);
         if (hash === '') {
-          this.renderNewPage('home-page');
-          console.log('HASH = ""');
+          window.location.hash = PageIds.ProductListPage;
         } else {
           this.renderNewPage(hash);
-          console.log(hash);
         }
       });
   }
@@ -82,13 +88,19 @@ export default class App {
       window.history.pushState({}, '', url.href);
       const hash = window.location.hash.slice(1);
       this.renderNewPage(hash);
-      console.log('HASHCHANGE');
     });
   }
 
+  private createBaseMarkUp(): void {
+    const header = this.header.render();
+    const main = document.createElement('main');
+    const footer = this.footer.render();
+    App.container.append(header, main, footer);
+  }
+
   public run(): void {
-    this.loadData();
     this.enableRouteChange();
-    App.container.append(this.header.render());
+    this.loadData();
+    this.createBaseMarkUp();
   }
 }

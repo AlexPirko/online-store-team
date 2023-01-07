@@ -11,7 +11,14 @@ export interface Product {
   category: string;
   thumbnail: string;
   images: string[];
+  cnt?: number;
 }
+
+export type ProductsOpts = {
+  sort?: string;
+  search?: string;
+  [key: string]: string;
+};
 
 export enum PageIds {
   HomePage = 'home-page',

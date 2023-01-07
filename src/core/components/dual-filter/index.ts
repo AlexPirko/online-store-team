@@ -99,7 +99,6 @@ export default class DualFilter extends Component {
     }
 
     function setToggleAccessible(currentTarget: HTMLInputElement, target: HTMLInputElement) {
-      // const toSlider = document.querySelector('#toSlider') as HTMLInputElement;
       if (+currentTarget.value <= +currentTarget.min) {
         target.style.zIndex = `${2}`;
       } else {

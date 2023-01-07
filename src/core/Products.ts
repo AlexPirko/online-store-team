@@ -4,14 +4,8 @@ import FilterBlock from './components/filter-block';
 import DualFilter from './components/dual-filter';
 import sort from '../funcs/sort';
 import search from '../funcs/search-products';
-// import checkCopyURL from '../funcs/checkCopyURL';
-import { PageIds } from '../types/types';
-
-type ProductsOpts = {
-  sort?: string;
-  search?: string;
-  [key: string]: string;
-};
+import { PageIds, ProductsOpts } from '../types/types';
+import Cart from './Cart';
 
 export default class Products {
   items: Product[] | null;
@@ -24,12 +18,15 @@ export default class Products {
 
   copiedURL: string;
 
+  cart: Cart | null;
+
   constructor() {
     this.initialItems = null;
     this.items = null;
     this.render = null;
     this.opts = {};
     this.copiedURL = '';
+    this.cart = null;
   }
 
   initProducts(productsArr: Product[]) {
@@ -54,7 +51,6 @@ export default class Products {
       }
       delete this.opts[key];
     }
-    console.log(this.opts);
   }
 
   updateURL() {
@@ -75,7 +71,6 @@ export default class Products {
       if (key === 'sort') {
         items = sort(this.opts[key] as string, items);
       } else if (key === 'search') {
-        // items = items.filter((item) => item.title.indexOf(this.opts[key] as string) !== -1) as Product[];
         items = search(items, this.opts[key] as string);
       } else if (key === 'category' || key === 'brand') {
         const filterArr = this.opts[key]?.split('↕');
@@ -107,7 +102,7 @@ export default class Products {
     this.updateURL();
     this.checkCopiedURL();
     this.updateProductAmount();
-    const productList = new ProductList('div', 'product-list', this).render();
+    const productList = new ProductList('div', 'product-list', this, this.cart as Cart).render();
     const elem = document.querySelector('.products-wrap') as Element;
     elem.innerHTML = '';
     elem.appendChild(productList);
@@ -147,6 +142,10 @@ export default class Products {
     } else {
       button?.classList.remove('active');
     }
+  }
+
+  bindCart(cart: Cart) {
+    this.cart = cart;
   }
 
   bindRender(renderFunc: (id: string) => void) {
