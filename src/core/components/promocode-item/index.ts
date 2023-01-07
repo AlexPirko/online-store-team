@@ -1,9 +1,10 @@
 import './index.css';
-import Component from "../../templates/component";
-import Cart from "../../Cart";
+import Component from '../../templates/component';
+import Cart from '../../Cart';
 
 export default class PromocodeItem extends Component {
   cart: Cart;
+
   codename: string;
 
   constructor(tagName: string, codeName: string, cart: Cart) {

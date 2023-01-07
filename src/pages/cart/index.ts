@@ -21,16 +21,10 @@ export default class CartPage extends Page {
 
   prevPageHandler() {
     this.cart.decPage();
-    // this.updateCurrentPage();
-    // this.updateCartItems();
-    console.log('Prev Page');
   }
 
   nextPageHandler() {
     this.cart.incPage();
-    // this.updateCurrentPage();
-    // this.updateCartItems();
-    console.log('Next Page');
   }
 
   updateCartItems() {
@@ -89,7 +83,7 @@ export default class CartPage extends Page {
     cartItemsWrap?.append(cartItems);
 
     const summaryWrap = this.container.querySelector('.summary-wrap');
-    summaryWrap?.append(new Summary('div', 'summary',this.cart).render());
+    summaryWrap?.append(new Summary('div', 'summary', this.cart).render());
 
     const prevButton = this.container.querySelector('.prev-page');
     const nextButton = this.container.querySelector('.next-page');
@@ -99,7 +93,7 @@ export default class CartPage extends Page {
     nextButton?.addEventListener('click', () => this.nextPageHandler());
     limitInput?.addEventListener('input', (e) => this.limitInputHandler(e));
 
-    if(this.cart.items.length === 0) {
+    if (this.cart.items.length === 0) {
       const wrapper = this.container.querySelector('.cart-wrap') as HTMLElement;
       wrapper.innerHTML = 'Oops - Cart is Empty((';
     }

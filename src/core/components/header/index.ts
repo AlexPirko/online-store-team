@@ -36,7 +36,7 @@ export default class Header extends Component {
     const itemCount = makeElement('div', 'item-count');
     itemCount.textContent = '0';
     elem.append(itemCount);
-    elem.onclick = () => window.location.hash = PageIds.CartPage;
+    elem.onclick = () => (window.location.hash = PageIds.CartPage);
     this.container.append(elem);
   }
 

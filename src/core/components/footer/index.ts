@@ -1,9 +1,8 @@
 import './index.css';
-import Component from "../../templates/component"
+import Component from '../../templates/component';
 
 export default class Footer extends Component {
-
-  override render():HTMLElement {
+  override render(): HTMLElement {
     const html = `
       <div class='link-block'>
         <a href='https://github.com/batar-btr' class='git-link'>batar-btr</a>

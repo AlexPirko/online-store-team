@@ -7,7 +7,7 @@ export default class Cart {
 
   promocode: {
     [key: string]: number;
-  }
+  };
 
   appliedCodes: string[];
 
@@ -17,7 +17,6 @@ export default class Cart {
     [key: string]: number;
   };
 
-
   constructor() {
     this.items = [];
     this.opts = {
@@ -26,25 +25,24 @@ export default class Cart {
     };
     this.appliedCodes = [];
     this.promocode = {
-      'rs22': 20,
-      'css': 10,
-      'js': 15,
-    }
+      rs22: 20,
+      css: 10,
+      js: 15,
+    };
   }
 
-  getTotalDiscount():number {
-    return this.appliedCodes.reduce((a,b)=>a + (this.promocode[b] || 0),0)
+  getTotalDiscount(): number {
+    return this.appliedCodes.reduce((a, b) => a + (this.promocode[b] || 0), 0);
   }
 
-  getDiscountPrice():number {
+  getDiscountPrice(): number {
     const price = this.getTotalPrice();
     const discount = this.getTotalDiscount();
-    return Math.round(price - ((price/100)*discount));
+    return Math.round(price - (price / 100) * discount);
   }
 
   removePromoCode(name: string): void {
-    this.appliedCodes = this.appliedCodes.filter(item => item !== name);
-    console.log('Remove');
+    this.appliedCodes = this.appliedCodes.filter((item) => item !== name);
     this.updateSummary();
   }
 
@@ -60,22 +58,21 @@ export default class Cart {
   }
 
   updateSummary(): void {
-    if(!this.items.length) return;
+    if (!this.items.length) return;
     const products = document.querySelector('.summary-products') as HTMLElement;
     const totalPrice = document.querySelector('.summary-total') as HTMLElement;
     const discountPrice = document.querySelector('.summary-discount') as HTMLElement;
 
     products.textContent = `Products: ${this.getTotalCount()}`;
     totalPrice.textContent = `Total: ${this.getTotalPrice()}$`;
-    discountPrice.textContent = `Total: ${this.getDiscountPrice()}$`
+    discountPrice.textContent = `Total: ${this.getDiscountPrice()}$`;
 
     const appliedItems = document.querySelector('.applied-items') as HTMLElement;
     appliedItems.innerHTML = '';
-    this.appliedCodes.forEach(item => {
+    this.appliedCodes.forEach((item) => {
       const elem = new AppliedCode('div', item, this).render();
       appliedItems?.append(elem);
-    })
-
+    });
 
     if (this.appliedCodes.length === 0) {
       const appliedElem = document.querySelector('.applied-codes-wrap');
@@ -89,7 +86,6 @@ export default class Cart {
 
     const addButton = document.querySelector('.promo-add-button');
     addButton?.classList.remove('hide');
-    console.log(this.getDiscountPrice());
   }
 
   updateOpts(key: string, value: number) {
@@ -133,7 +129,6 @@ export default class Cart {
       }
     }
   }
-
 
   updateHeader(): void {
     const itemCount = document.querySelector('.item-count') as HTMLElement;
@@ -231,23 +226,20 @@ export default class Cart {
 
   updateItemNumbers = () => {
     const numbersElems = document.querySelectorAll('.cart-item-number');
-    console.log(numbersElems);
     numbersElems.forEach((item, idx) => (item.textContent = `${idx + 1}`));
   };
 
   addItem(item: Product) {
     item.cnt = 1;
     this.items.push(item);
-    console.log(this.items);
     this.updateHeader();
   }
 
   removeItem(id: number) {
     this.items = this.items.filter((item) => item.id !== id);
-    console.log(this.items);
     this.updateHeader();
     this.checkEmptyCart();
   }
 
-  saveCart() { }
+  saveCart() {}
 }

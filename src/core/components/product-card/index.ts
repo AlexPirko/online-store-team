@@ -16,6 +16,8 @@ export default class ProductCard extends Component {
   }
 
   override render() {
+    const isItemInCart = (id: number): boolean => !!this.cart.items.find((item) => item.id === id);
+
     const { title, price, rating, images, id } = this.item;
     const html = `
       <div class='img-wrap'>
@@ -33,8 +35,7 @@ export default class ProductCard extends Component {
     this.container.innerHTML = html;
     const img = this.container.querySelector('img');
     const button = this.container.querySelector('button') as HTMLButtonElement;
-
-    const isItemInCart = (id: number): boolean => !!this.cart.items.find((item) => item.id === id);
+    const titleElem = this.container.querySelector('h3') as HTMLElement;
 
     const changeButtonView = (): void => {
       if (isItemInCart(id)) {
@@ -45,7 +46,7 @@ export default class ProductCard extends Component {
         button.textContent = 'Add';
       }
     };
-    
+
     changeButtonView();
 
     const addProductHandler = () => {
@@ -63,8 +64,12 @@ export default class ProductCard extends Component {
       const newHash = `product-details/${id}`;
       window.location.hash = newHash;
     });
+
+    titleElem.addEventListener('click', () => {
+      const newHash = `product-details/${id}`;
+      window.location.hash = newHash;
+    })
+
     return this.container;
   }
 }
-
-// <p>${description.slice(0, 100) + '...'}</p>

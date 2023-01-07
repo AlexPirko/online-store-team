@@ -4,7 +4,6 @@ import FilterBlock from './components/filter-block';
 import DualFilter from './components/dual-filter';
 import sort from '../funcs/sort';
 import search from '../funcs/search-products';
-// import checkCopyURL from '../funcs/checkCopyURL';
 import { PageIds, ProductsOpts } from '../types/types';
 import Cart from './Cart';
 
@@ -52,7 +51,6 @@ export default class Products {
       }
       delete this.opts[key];
     }
-    console.log(this.opts);
   }
 
   updateURL() {
@@ -73,7 +71,6 @@ export default class Products {
       if (key === 'sort') {
         items = sort(this.opts[key] as string, items);
       } else if (key === 'search') {
-        // items = items.filter((item) => item.title.indexOf(this.opts[key] as string) !== -1) as Product[];
         items = search(items, this.opts[key] as string);
       } else if (key === 'category' || key === 'brand') {
         const filterArr = this.opts[key]?.split('↕');

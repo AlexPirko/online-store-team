@@ -68,6 +68,9 @@
 
 .buy-now {
  padding: 10px;
- margin-top: 20px;
  cursor: pointer;
+}
+
+.summary .buy-now {
+  margin-top: 20px;
 }

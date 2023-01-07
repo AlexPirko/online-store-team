@@ -11,7 +11,7 @@ export default class ProductDetails extends Page {
 
   private products: Products;
 
-  private cart: Cart; 
+  private cart: Cart;
 
   constructor(idPage: string, id: number, products: Products, cart: Cart) {
     super(idPage);
@@ -32,7 +32,7 @@ export default class ProductDetails extends Page {
       const product = this.products.items?.find((item) => item.id === this.id) as Product;
       const { price, title, category, brand, images, description, discountPercentage, rating, stock } = product;
 
-      const isItemInCart = (id:number):boolean => !!this.cart.items.find((item) => item.id === id);
+      const isItemInCart = (id: number): boolean => !!this.cart.items.find((item) => item.id === id);
 
       const html = `
         <div class='container'>
@@ -98,7 +98,6 @@ export default class ProductDetails extends Page {
         image.addEventListener('click', () => {
           bigImg.src = path;
           const thumbs = this.container.querySelectorAll('.thumbnail');
-          console.log(thumbs);
           thumbs.forEach((item) => item.classList.remove('active'));
           wrapper.classList.add('active');
         });
@@ -128,14 +127,11 @@ export default class ProductDetails extends Page {
       };
 
       const buyNowHandler = () => {
-        console.log('Buy now handler!!!');
+        console.warn('Buy now handler!!!');
       };
 
       addButton.addEventListener('click', addToCartHandler);
       buyNowButton?.addEventListener('click', buyNowHandler);
-
-      const titleElem = this.container.querySelector('.product-details-title');
-      titleElem?.addEventListener('click', () => console.log(product));
     }
     return this.container;
   }

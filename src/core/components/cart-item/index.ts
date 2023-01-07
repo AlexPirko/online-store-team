@@ -27,7 +27,6 @@ export default class CartItem extends Component {
     this.updateCartItem();
     if (this.item.cnt === 0) {
       this.container.remove();
-      // this.cart.updateItemNumbers();
     }
   };
 

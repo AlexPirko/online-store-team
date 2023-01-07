@@ -20,9 +20,8 @@ export default class App {
 
   private cart: Cart;
 
-  // private initialPage: HomePage;
-
   private header: Header;
+
   private footer: Footer;
 
   constructor() {
@@ -33,7 +32,6 @@ export default class App {
   }
 
   renderNewPage = (idPage: string) => {
-    console.log('Render NEW');
     const currentPageHTML = document.querySelector(`#${App.defaultPageId}`);
     if (currentPageHTML) {
       currentPageHTML.remove();
@@ -79,7 +77,6 @@ export default class App {
           window.location.hash = PageIds.ProductListPage;
         } else {
           this.renderNewPage(hash);
-          console.log(hash);
         }
       });
   }
@@ -91,11 +88,10 @@ export default class App {
       window.history.pushState({}, '', url.href);
       const hash = window.location.hash.slice(1);
       this.renderNewPage(hash);
-      console.log('HASHCHANGE');
     });
   }
 
-  private createBaseMarkUp():void {
+  private createBaseMarkUp(): void {
     const header = this.header.render();
     const main = document.createElement('main');
     const footer = this.footer.render();

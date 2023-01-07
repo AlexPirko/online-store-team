@@ -1,7 +1,6 @@
 import './index.css';
 import Component from '../../templates/component';
 import Cart from '../../Cart';
-// import makeElement from '../../../funcs/makeElement';
 import AppliedCode from '../applied-code-item';
 import PromocodeItem from '../promocode-item';
 
@@ -14,7 +13,7 @@ export default class Summary extends Component {
   }
 
   checkCodeExist(value: string): boolean {
-    return Object.keys(this.cart.promocode).some(key => key === value);
+    return Object.keys(this.cart.promocode).some((key) => key === value);
   }
 
   promoInputHandler = (e: Event) => {
@@ -23,17 +22,6 @@ export default class Summary extends Component {
     const findPromo = this.container.querySelector('.find-promo') as HTMLElement;
     findPromo.innerHTML = '';
     if (this.checkCodeExist(value)) {
-      // const elem = makeElement('div', 'promo-item');
-      // const button = makeElement('button', 'promo-add-button');
-      // button.textContent = 'Add'
-      // elem.textContent = `Code: ${value} - ${this.cart.promocode[value]}%`;
-      // elem.append(button);
-
-      // button.addEventListener('click', () => {
-      //   this.cart.setPromoCode(value);
-      //   button.classList.add('hide');
-      // });
-
       const elem = new PromocodeItem('div', value, this.cart).render();
 
       if (this.cart.appliedCodes.indexOf(value) !== -1) {
@@ -43,7 +31,7 @@ export default class Summary extends Component {
 
       findPromo?.append(elem);
     }
-  }
+  };
 
   override render() {
     const html = `
@@ -64,7 +52,6 @@ export default class Summary extends Component {
     `;
     this.container.innerHTML = html;
 
-
     if (this.cart.appliedCodes.length === 0) {
       const appliedCodes = this.container.querySelector('.applied-codes-wrap');
       appliedCodes?.classList.add('hide');
@@ -74,7 +61,7 @@ export default class Summary extends Component {
       const totalPrice = this.container.querySelector('.summary-total');
       totalPrice?.classList.add('disable');
       const appliedItems = this.container.querySelector('.applied-items');
-      this.cart.appliedCodes.forEach(item => {
+      this.cart.appliedCodes.forEach((item) => {
         const elem = new AppliedCode('div', item, this.cart).render();
         appliedItems?.append(elem);
       });
