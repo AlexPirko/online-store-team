@@ -5,6 +5,8 @@ import CartList from './components/cart-list';
 export default class Cart {
   items: Product[];
 
+  isOpenModal: boolean;
+
   promocode: {
     [key: string]: number;
   };
@@ -19,6 +21,7 @@ export default class Cart {
 
   constructor() {
     this.items = [];
+    this.isOpenModal = false;
     this.opts = {
       page: 1,
       limit: 3,
@@ -29,6 +32,17 @@ export default class Cart {
       css: 10,
       js: 15,
     };
+  }
+
+  toggleModal() {
+    this.isOpenModal = !this.isOpenModal;
+    const modal = document.querySelector('#modal') as HTMLElement;
+    console.log(modal);
+    if (this.isOpenModal) {
+      modal.classList.add('open');
+    } else {
+      modal.classList.remove('open');
+    }
   }
 
   getTotalDiscount(): number {
@@ -193,6 +207,7 @@ export default class Cart {
     if (item.cnt && item.cnt < item.stock) {
       item.cnt += 1;
     }
+    this.saveCart();
     this.updateHeader();
     this.updateSummary();
   }
@@ -211,6 +226,7 @@ export default class Cart {
       this.updateCartItems();
       this.checkEpmptyPage();
     }
+    this.saveCart();
     this.updateHeader();
     this.updateSummary();
   }
@@ -232,14 +248,25 @@ export default class Cart {
   addItem(item: Product) {
     item.cnt = 1;
     this.items.push(item);
+    this.saveCart();
     this.updateHeader();
   }
 
   removeItem(id: number) {
     this.items = this.items.filter((item) => item.id !== id);
+    this.saveCart();
     this.updateHeader();
     this.checkEmptyCart();
   }
 
-  saveCart() {}
+  saveCart() {
+    localStorage.setItem('cart', JSON.stringify(this.items));
+  }
+
+  clearCart() {
+    this.items = [];
+    this.appliedCodes = [];
+    this.updateHeader();
+    localStorage.clear();
+  }
 }

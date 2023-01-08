@@ -1,6 +1,6 @@
 import './index.css';
 import Products from '../../core/Products';
-import { Product } from '../../types/types';
+import { PageIds, Product } from '../../types/types';
 import Page from '../../core/templates/page';
 import loadImage from '../../funcs/loadImg';
 import RatingStar from '../../core/components/rating-star';
@@ -127,7 +127,11 @@ export default class ProductDetails extends Page {
       };
 
       const buyNowHandler = () => {
-        console.warn('Buy now handler!!!');
+        this.cart.isOpenModal = true;
+        if (!isItemInCart(this.id)) {
+          this.cart.addItem(product);
+        }
+        window.location.hash = PageIds.CartPage;
       };
 
       addButton.addEventListener('click', addToCartHandler);
