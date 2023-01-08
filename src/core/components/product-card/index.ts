@@ -5,6 +5,11 @@ import Component from '../../templates/component';
 import Cart from '../../Cart';
 
 export default class ProductCard extends Component {
+
+  static cacheImages: {
+    [key: string]: HTMLImageElement;
+  } = {};
+
   private item: Product;
 
   private cart: Cart;
@@ -21,7 +26,6 @@ export default class ProductCard extends Component {
     const { title, price, rating, images, id } = this.item;
     const html = `
       <div class='img-wrap'>
-        <img src='${images[0]}' alt='${title}'>
       </div>
       <div class='products-description'>
         <h3>${title.slice(0, 20)}</h3>
@@ -33,7 +37,19 @@ export default class ProductCard extends Component {
       </div>
     `;
     this.container.innerHTML = html;
-    const img = this.container.querySelector('img');
+    const imgWrap = this.container.querySelector('.img-wrap') as HTMLElement;
+    let image: HTMLImageElement;
+    const imgUrl = images[0] as string;
+    if(ProductCard.cacheImages[imgUrl]) {
+      image = ProductCard.cacheImages[imgUrl] as HTMLImageElement;
+    } else {
+      image = new Image();
+      image.src = imgUrl;
+      ProductCard.cacheImages[imgUrl] = image;
+    }
+
+    imgWrap.append(image);
+
     const button = this.container.querySelector('button') as HTMLButtonElement;
     const titleElem = this.container.querySelector('h3') as HTMLElement;
 
@@ -60,7 +76,7 @@ export default class ProductCard extends Component {
 
     button?.addEventListener('click', addProductHandler);
 
-    img?.addEventListener('click', () => {
+    image.addEventListener('click', () => {
       const newHash = `product-details/${id}`;
       window.location.hash = newHash;
     });
