@@ -5,7 +5,6 @@ import Component from '../../templates/component';
 import Cart from '../../Cart';
 
 export default class ProductCard extends Component {
-
   static cacheImages: {
     [key: string]: HTMLImageElement;
   } = {};
@@ -40,7 +39,7 @@ export default class ProductCard extends Component {
     const imgWrap = this.container.querySelector('.img-wrap') as HTMLElement;
     let image: HTMLImageElement;
     const imgUrl = images[0] as string;
-    if(ProductCard.cacheImages[imgUrl]) {
+    if (ProductCard.cacheImages[imgUrl]) {
       image = ProductCard.cacheImages[imgUrl] as HTMLImageElement;
     } else {
       image = new Image();
